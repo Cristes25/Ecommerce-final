@@ -9,40 +9,44 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    
+    // override default primary key
+    protected $primaryKey = 'user_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    //fillabel fields 
     protected $fillable = [
-        'name',
+        'firstName',
+        'lastName',
         'email',
-        'password',
+        'password_hash',  // map to 'password' laracevel default
+        'user_role'  // e.g., 'admin', 'customer' default customer 
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    //sensitive fields
     protected $hidden = [
-        'password',
+        'password_hash',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+    protected $casts = [
+
+        'user_role' => 'string',
+    ];
+
+    public function getAuthPassword(): string{
+        return $this->password_hash;
     }
+    //Eloquent Relationships
+    // A user can have many orders 1:N
+    public function orders(){
+        return $this->hasMany(Order::class);
+
+    }
+    //A user has one cart 1:1
+    public function shoppingcart(){
+        return $this->hasOne(ShoppingCart::class);
+    }
+    //boolean isAdmin
+    public function isAdmin(){
+        return $this-> user_role === 'administrator';
+    }  
 }
