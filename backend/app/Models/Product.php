@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Product extends Model
 {
     protected $table = "products";
-    protected $primary_key = "product_id";
+    protected $primaryKey = "product_id";
 
     protected $fillable= [
         "prod_name",
