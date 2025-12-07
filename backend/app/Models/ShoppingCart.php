@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingCart extends Model
 {
-    protected $table = "shopping_carts";
+    protected $table = "shopping_cart";
     protected $primaryKey = "cart_id";
 
     protected $fillable = [
@@ -23,6 +23,6 @@ class ShoppingCart extends Model
     }
     //ShoppingCart has many CartItems 1:N
     public function cartItems(){
-        return $this->hasMany(CartItems::class, "cart_id", "cart_item_id");
+        return $this->hasMany(CartItem::class, "cart_id", "cart_item_id");
     }
 }

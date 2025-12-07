@@ -1,0 +1,53 @@
+
+
+services:
+  # 1. PHP-FPM Service (Handles PHP execution)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html 
+    networks:
+      - ecommerce_network
+
+  # 2. Web Server Service (Handles HTTP requests)
+  web:
+    image: nginx:alpine
+    container_name: laravel_web
+    restart: unless-stopped
+    ports:
+      - 80:80 
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d 
+    depends_on:
+      - app
+    networks:
+      - ecommerce_network
+
+  # 3. Database Service (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: laravel_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce 
+      MYSQL_USER: user 
+      MYSQL_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql 
+    networks:
+      - ecommerce_network
+
+# Define External Volumes and Networks
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  ecommerce_network:
+    driver: bridge

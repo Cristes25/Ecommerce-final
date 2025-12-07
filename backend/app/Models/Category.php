@@ -24,10 +24,10 @@ class Category extends Model
     }
     //product has many orderItems 1:N
     public function orderItems(){
-        return $this->hasMany(OrderItems::class, "product_id", "product_id");
+        return $this->hasMany(OrderItem::class, "product_id", "product_id");
     }
     public function cartItems(){
-        return $this->hasMany(CartItems::class, "product_id", "product_id");
+        return $this->hasMany(CartItem::class, "product_id", "product_id");
     }
 
 }

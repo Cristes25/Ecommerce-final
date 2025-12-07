@@ -20,6 +20,6 @@ class CartItem extends Model
     }
     //CartItem belongs to Product N:1
     public function product(){
-        return $this->belongsTo(Products::class, "product_id", "product_id");
+        return $this->belongsTo(Product::class, "product_id", "product_id");
     }
 }

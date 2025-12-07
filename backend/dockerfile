@@ -1,0 +1,23 @@
+FROM php:8.4-fpm-alpine
+
+# Install system dependencies
+RUN apk update && apk add \
+    git \
+    curl \
+    libxml2-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo_mysql
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# 🛑 CRITICAL FIX: Copy application files before running chown 🛑
+COPY . . 
+
+# Adjust permissions for Laravel storage
+RUN chown -R www-data:www-data /var/www/html/storage \
+    && chown -R www-data:www-data /var/www/html/bootstrap/cache

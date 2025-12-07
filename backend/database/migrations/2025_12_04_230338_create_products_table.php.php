@@ -20,7 +20,7 @@ return new class extends Migration
                 ->onUpdate("cascade");
             //product details 
             $table->string("prod_name", 50);
-            $table->text("prod_description")->nullable();
+            $table->text("prod_description",255)->nullable();
             //finance
             $table->decimal("price", 6, 2);
             $table->unsignedInteger("stock_quantity")->default(0);

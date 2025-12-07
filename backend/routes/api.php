@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
-use App\Models\Product;
+
 use App\Models\Category;
 use App\Models\ShoppingCart;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -17,10 +18,16 @@ use Illuminate\Validation\ValidationException;
 // Test route
 Route::get('/test', function () {
     return response()->json(['message' => 'API is working!']);
+
 });
 Route::get('/test-product', function() {
     return Product::all();
 });
+
+Route::get('/categories', function() {
+    return Category::all();
+});
+
 
 // Auth: Register
 Route::post('/register', function(Request $request) {
